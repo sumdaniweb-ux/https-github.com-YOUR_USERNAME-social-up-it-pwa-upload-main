@@ -1,0 +1,21 @@
+{
+  "name": "GMD Spark - Premium Ad Tech",
+  "short_name": "GMD Spark",
+  "description": "Ultra-premium advertising testing framework and scaling solutions",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#030407",
+  "theme_color": "#FF6600",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/XrLX7kXC/Gemini-Generated-Image-d70jwud70jwud70j.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "https://i.ibb.co/XrLX7kXC/Gemini-Generated-Image-d70jwud70jwud70j.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

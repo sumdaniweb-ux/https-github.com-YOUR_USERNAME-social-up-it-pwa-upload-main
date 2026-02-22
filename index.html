@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>GMD Spark | Official App</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <!-- Apple Touch Icon -->
+    <link rel="apple-touch-icon" href="https://i.ibb.co/XrLX7kXC/Gemini-Generated-Image-d70jwud70jwud70j.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#FF6600">
+    
+    <style>
+        :root { 
+            --accent: #FF6600; 
+            --accent-glow: #FF4400;
+            --bg: #030407; 
+        }
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Arial Black', sans-serif; 
+        }
+        
+        body { 
+            background-color: var(--bg); 
+            background: radial-gradient(circle at 30% 30%, #2a1a0f, #030407 70%);
+            color: white; 
+            display: flex; 
+            justify-content: center; 
+            min-height: 100vh; 
+            align-items: center; 
+            padding: 12px;
+            position: relative;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* فائر فلائیز */
+        .fireflies {
+            position: fixed;
+            width: 100%; height: 100%;
+            pointer-events: none;
+        }
+        .firefly {
+            position: absolute;
+            width: max(3px, 0.4vh); 
+            height: max(3px, 0.4vh);
+            background: var(--accent);
+            border-radius: 50%;
+            box-shadow: 0 0 20px var(--accent);
+            animation: fly 8s infinite;
+        }
+        @keyframes fly {
+            0% { transform: translate(0, 0) scale(1); opacity: 1; }
+            100% { transform: translate(min(100vw, 500px), min(100vh, 800px)) scale(0); opacity: 0; }
+        }
+
+        .premium-card {
+            width: 100%;
+            max-width: min(390px, 95%);
+            background: rgba(5, 5, 5, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: clamp(30px, 8vw, 50px);
+            padding: 3px;
+            position: relative;
+            z-index: 10;
+            border: 1px solid rgba(255,102,0,0.3);
+            transition: transform 0.3s;
+        }
+        .premium-card:active {
+            transform: scale(0.99);
+        }
+
+        .premium-card::before {
+            content: '';
+            position: absolute;
+            top: -5px; left: -5px; right: -5px; bottom: -5px;
+            background: linear-gradient(45deg, var(--accent), #ffaa00, var(--accent-glow), #ff5500);
+            border-radius: clamp(35px, 9vw, 55px);
+            z-index: -1;
+            animation: borderMove 3s linear infinite;
+            opacity: 0.7;
+        }
+        @keyframes borderMove {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .inner {
+            background: #0a0a0a;
+            border-radius: clamp(27px, 7vw, 47px);
+            padding: clamp(20px, 6vw, 40px) clamp(12px, 4vw, 20px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .inner::after {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at center, rgba(255,102,0,0.1) 0%, transparent 50%);
+            animation: innerGlow 10s linear infinite;
+        }
+        @keyframes innerGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .logo-glow {
+            width: clamp(90px, 25vw, 120px);
+            height: clamp(90px, 25vw, 120px);
+            margin: 0 auto clamp(15px, 4vw, 20px);
+            border-radius: clamp(25px, 7vw, 35px);
+            padding: 4px;
+            background: linear-gradient(45deg, var(--accent), #fff, var(--accent));
+            box-shadow: 0 0 min(5vw, 50px) rgba(255,102,0,0.8);
+            animation: logoPulse 2s infinite;
+        }
+        @keyframes logoPulse {
+            0% { transform: scale(1); box-shadow: 0 0 min(3vw, 30px) var(--accent); }
+            50% { transform: scale(1.08); box-shadow: 0 0 min(8vw, 80px) var(--accent); }
+            100% { transform: scale(1); box-shadow: 0 0 min(3vw, 30px) var(--accent); }
+        }
+
+        .logo { 
+            width: 100%; 
+            height: 100%; 
+            border-radius: clamp(22px, 6vw, 31px); 
+            background: #000;
+            object-fit: cover;
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .brand { 
+            font-size: clamp(24px, 7vw, 32px); 
+            font-weight: 900; 
+            letter-spacing: clamp(2px, 1vw, 4px); 
+            margin-bottom: clamp(20px, 6vw, 30px);
+            background: linear-gradient(45deg, #fff, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 min(2vw, 20px) rgba(255,102,0,0.5);
+            animation: textGlow 2s ease-in-out infinite;
+        }
+        @keyframes textGlow {
+            0% { text-shadow: 0 0 min(1vw, 10px) var(--accent); }
+            50% { text-shadow: 0 0 min(3vw, 30px) var(--accent), 0 0 min(5vw, 50px) #fff; }
+            100% { text-shadow: 0 0 min(1vw, 10px) var(--accent); }
+        }
+
+        /* فیچر باکسز */
+        .f-box { 
+            background: linear-gradient(135deg, #1a1a1a, #0d0d0d);
+            color: white; 
+            padding: clamp(14px, 4vw, 18px) clamp(12px, 3vw, 20px);
+            margin-bottom: clamp(10px, 3vw, 15px);
+            border-radius: clamp(15px, 4vw, 20px);
+            font-size: clamp(11px, 3.5vw, 14px);
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: clamp(8px, 2.5vw, 12px);
+            border-left: 5px solid var(--accent);
+            border-right: 1px solid rgba(255,102,0,0.2);
+            box-shadow: 0 min(1vh, 10px) min(2vh, 20px) rgba(0,0,0,0.5);
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .f-box:active {
+            transform: translateX(-5px) scale(0.98);
+            background: linear-gradient(135deg, var(--accent), #ff4400);
+        }
+
+        .icon-container {
+            width: clamp(30px, 9vw, 36px);
+            height: clamp(30px, 9vw, 36px);
+            background: rgba(255,102,0,0.15);
+            border-radius: clamp(8px, 3vw, 12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(16px, 5vw, 22px);
+            border: 1px solid rgba(255,102,0,0.3);
+            animation: iconPop 2s infinite;
+            flex-shrink: 0;
+        }
+        @keyframes iconPop {
+            0% { transform: scale(1); background: rgba(255,102,0,0.15); }
+            50% { transform: scale(1.1); background: rgba(255,102,0,0.3); box-shadow: 0 0 min(1.5vw, 15px) var(--accent); }
+            100% { transform: scale(1); background: rgba(255,102,0,0.15); }
+        }
+
+        .f-box:nth-child(1) .icon-container { animation-delay: 0s; }
+        .f-box:nth-child(2) .icon-container { animation-delay: 0.3s; }
+        .f-box:nth-child(3) .icon-container { animation-delay: 0.6s; }
+        .f-box:nth-child(4) .icon-container { animation-delay: 0.9s; }
+        .f-box:nth-child(5) .icon-container { animation-delay: 1.2s; }
+        .f-box:nth-child(6) .icon-container { animation-delay: 1.5s; }
+
+        .f-box span {
+            background: rgba(255,255,255,0.15);
+            padding: clamp(4px, 2vw, 5px) clamp(8px, 3vw, 12px);
+            border-radius: clamp(15px, 5vw, 30px);
+            font-size: clamp(9px, 2.5vw, 11px);
+            letter-spacing: 0.5px;
+            border: 1px solid rgba(255,255,255,0.3);
+            margin-left: auto;
+            white-space: nowrap;
+        }
+
+        .btn-main, .btn-wa {
+            padding: clamp(16px, 5vw, 20px);
+            border-radius: clamp(20px, 6vw, 30px);
+            font-size: clamp(16px, 5vw, 20px);
+            font-weight: 900;
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            transition: all 0.3s;
+            -webkit-tap-highlight-color: transparent;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-main {
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            color: #000;
+            margin: clamp(15px, 5vw, 20px) 0 clamp(10px, 3vw, 15px);
+            box-shadow: 0 0 min(3vw, 30px) rgba(255,255,255,0.3);
+        }
+        .btn-main:active {
+            transform: scale(0.95);
+            background: linear-gradient(45deg, var(--accent), #ff4400);
+            color: white;
+        }
+
+        .btn-wa {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            animation: waPulse 1.5s infinite;
+        }
+        @keyframes waPulse {
+            0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+            70% { box-shadow: 0 0 0 min(2vw, 20px) rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+        .btn-wa:active {
+            transform: scale(0.95);
+            filter: brightness(1.2);
+        }
+
+        /* ڈیسک ٹاپ کے لیے ہوور */
+        @media (hover: hover) {
+            .premium-card:hover {
+                transform: translateY(-10px) rotateX(5deg);
+            }
+            .f-box:hover {
+                transform: translateX(-10px) scale(1.02);
+                background: linear-gradient(135deg, var(--accent), #ff4400);
+                border-left: 5px solid white;
+                box-shadow: 0 min(2vh, 20px) min(3vh, 30px) rgba(255,68,0,0.4);
+            }
+            .f-box:hover .icon-container {
+                animation: none;
+                background: white;
+                color: var(--accent);
+                transform: scale(1.2);
+            }
+            .btn-main:hover {
+                transform: scale(1.05);
+                background: linear-gradient(45deg, var(--accent), #ff4400);
+                color: white;
+                box-shadow: 0 0 min(5vw, 50px) var(--accent);
+            }
+            .btn-wa:hover {
+                filter: brightness(1.2);
+                transform: scale(1.05);
+            }
+        }
+    </style>
+    <!-- فونٹ اوسم -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- سروس ورکر -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', function() {
+                navigator.serviceWorker.register('service-worker.js').then(function(registration) {
+                    console.log('Service Worker registered with scope:', registration.scope);
+                }, function(err) {
+                    console.log('Service Worker registration failed:', err);
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+    <!-- فائر فلائیز -->
+    <div class="fireflies">
+        <div class="firefly" style="top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="firefly" style="top: 30%; left: 70%; animation-delay: 2s;"></div>
+        <div class="firefly" style="top: 70%; left: 20%; animation-delay: 4s;"></div>
+        <div class="firefly" style="top: 90%; left: 80%; animation-delay: 1s;"></div>
+        <div class="firefly" style="top: 50%; left: 50%; animation-delay: 3s;"></div>
+    </div>
+
+    <div class="premium-card">
+        <div class="inner">
+            <!-- لوگو -->
+            <div class="logo-glow">
+                <img src="https://i.ibb.co/XrLX7kXC/Gemini-Generated-Image-d70jwud70jwud70j.png" class="logo" alt="GMD Spark" loading="lazy">
+            </div>
+            
+            <div class="brand">GMD SPARK</div>
+            
+            <!-- فیچر باکسز -->
+            <div class="f-list">
+                <div class="f-box">
+                    <div class="icon-container"><i class="fab fa-facebook-f"></i></div>
+                    <span class="text">CREATIVE TESTING</span>
+                    <span>PRO</span>
+                </div>
+                <div class="f-box">
+                    <div class="icon-container"><i class="fab fa-instagram"></i></div>
+                    <span class="text">META & GOOGLE ADS</span>
+                    <span>PRO</span>
+                </div>
+                <div class="f-box">
+                    <div class="icon-container"><i class="fab fa-tiktok"></i></div>
+                    <span class="text">TIKTOK STRATEGY</span>
+                    <span>PRO</span>
+                </div>
+                <div class="f-box">
+                    <div class="icon-container"><i class="fab fa-snapchat-ghost"></i></div>
+                    <span class="text">4.3 ROAS STUDY</span>
+                    <span>WIN</span>
+                </div>
+                <div class="f-box">
+                    <div class="icon-container"><i class="fab fa-x-twitter"></i></div>
+                    <span class="text">AI CREATIVE GEN</span>
+                    <span>NEW</span>
+                </div>
+                <div class="f-box">
+                    <div class="icon-container"><i class="fab fa-linkedin-in"></i></div>
+                    <span class="text">B2B LEAD GEN</span>
+                    <span>PRO</span>
+                </div>
+            </div>
+
+            <!-- بٹن (اپنے نمبر اور ای میل لگائیں) -->
+            <div style="margin-top: clamp(20px, 6vw, 30px);">
+                <a href="mailto:contact@gmdspark.com" class="btn-main" id="emailBtn">📅 BOOK AUDIT</a>
+                <a href="https://wa.me/923000000000" class="btn-wa" id="whatsappBtn">💬 WHATSAPP CHAT</a>
+            </div>
+
+            <div style="margin-top: clamp(12px, 4vw, 20px); font-size: clamp(8px, 2.5vw, 10px); opacity: 0.5; letter-spacing: 1px;">
+                GMD SPARK © 2025 | v1.0.0
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // آف لائن چلنے کے لیے
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!navigator.onLine) {
+                alert('آپ آف لائن ہیں۔ ایپ محدود موڈ میں چل رہی ہے۔');
+            }
+        });
+    </script>
+</body>
+</html>
